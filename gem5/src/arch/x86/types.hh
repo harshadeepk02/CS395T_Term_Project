@@ -290,9 +290,12 @@ namespace X86ISA
         typedef GenericISA::UPCState<MachInst> Base;
 
         uint8_t _size;
-
+	
       public:
-        void
+        
+	Addr paddr;
+	
+	void
         set(Addr val)
         {
             Base::set(val);
