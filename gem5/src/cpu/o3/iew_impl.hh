@@ -1309,6 +1309,22 @@ DefaultIEW<Impl>::executeInsts()
                 if (inst->isDataPrefetch() || inst->isInstPrefetch()) {
                     inst->fault = NoFault;
                 }
+
+                // New code
+                if (inst->isExecuted() && fault == NoFault) {
+                    const std::list<DynInstPtr> ROB_list = rob->getInstList(inst->threadNumber);
+                    for (DynInstPtr rob_entry : ROB_list) {
+                        if (rob_entry->seqNum == inst->seqNum) {
+                            break;
+                        }
+                        if (rob_entry->isControl()) {
+                            if (rob_entry->isExecuted() && !rob_entry->mispredicted()) {
+                                TheISA::PCState thisPC = inst->pcState();
+                                cpu->getInstPort().commitaLoad(thisPC.paddr, thisPC.instAddr());
+                            }
+                        }
+                    }
+                }
             } else if (inst->isStore()) {
                 fault = ldstQueue.executeStore(inst);
 
@@ -1708,6 +1724,14 @@ DefaultIEW<Impl>::checkMisprediction(const DynInstPtr& inst)
             }
         }
     }
+}
+
+// new code
+template <class Impl>
+void
+DefaultIEW<Impl>::setROB(ROB *rob_ptr)
+{
+    rob = rob_ptr;
 }
 
 #endif//__CPU_O3_IEW_IMPL_IMPL_HH__

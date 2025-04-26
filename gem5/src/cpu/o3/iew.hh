@@ -86,6 +86,7 @@ class DefaultIEW
     typedef typename CPUPol::IQ IQ;
     typedef typename CPUPol::RenameMap RenameMap;
     typedef typename CPUPol::LSQ LSQ;
+    typedef typename CPUPol::ROB ROB;
 
     typedef typename CPUPol::TimeStruct TimeStruct;
     typedef typename CPUPol::IEWStruct IEWStruct;
@@ -132,6 +133,9 @@ class DefaultIEW
   public:
     /** Constructs a DefaultIEW with the given parameters. */
     DefaultIEW(O3CPU *_cpu, DerivO3CPUParams *params);
+
+    /** Sets pointer to the ROB. */
+    void setROB(ROB *rob_ptr);
 
     /** Returns the name of the DefaultIEW stage. */
     std::string name() const;
@@ -375,6 +379,9 @@ class DefaultIEW
      * IEW knows if there will be activity on the next cycle.
      */
     bool updateLSQNextCycle;
+
+    /** ROB interface. */
+    ROB *rob;
 
   private:
     /** Records if there is a fetch redirect on this cycle for each thread. */

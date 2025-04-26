@@ -286,6 +286,7 @@ FullO3CPU<Impl>::FullO3CPU(DerivO3CPUParams *params)
 
     // Setup the ROB for whichever stages need it.
     commit.setROB(&rob);
+    iew.setROB(&rob);
 
     lastActivatedCycle = 0;
 

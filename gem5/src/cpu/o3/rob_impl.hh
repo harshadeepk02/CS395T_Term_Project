@@ -548,4 +548,11 @@ ROB<Impl>::findInst(ThreadID tid, InstSeqNum squash_inst)
     return NULL;
 }
 
+template <class Impl>
+const typename std::list<typename Impl::DynInstPtr>&
+ROB<Impl>::getInstList(ThreadID tid)
+{
+    return instList[tid];
+}
+
 #endif//__CPU_O3_ROB_IMPL_HH__

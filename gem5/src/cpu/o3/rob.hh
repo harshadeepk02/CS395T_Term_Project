@@ -89,6 +89,8 @@ class ROB
 
     std::string name() const;
 
+    const std::list<DynInstPtr> &getInstList(ThreadID tid);
+
     /** Sets pointer to the list of active threads.
      *  @param at_ptr Pointer to the list of active threads.
      */
