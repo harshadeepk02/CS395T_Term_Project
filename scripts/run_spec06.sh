@@ -1,10 +1,10 @@
 cd ..
 set -u
 export BASE=$(pwd)
-cd SPEC/benchspec/CPU2006/
+cd scripts/gem5_scripts/spec06/
 P=8
 i=0
-for bench in xalancbmk astar omnetpp soplex sphinx3 mcf
+for bench in xalancbmk astar omnetpp soplex sphinx3 # mcf not working
 do
   ((i=i%P)); ((i++==0)) && wait
   (
@@ -13,8 +13,8 @@ do
   BINA=./$(echo $BIN)"_base.amd64-m64-gcc42-nn"
   echo $BINA
   ARGS=$(grep $bench $BASE/spec_confs/args.txt | awk -F':' '{print $2}'| xargs)
-  cd *$bench/run/run_base_ref_aarch64.0000
-  nice $BASE/scripts/gem5_scripts/run_ghostminion.sh "$BINA" "$ARGS" "$IN" 
+  cd *$bench/
+  $BASE/scripts/gem5_scripts/run_ghostminion.sh "$BINA" "$ARGS" "$IN"
   ) &
 done
 cd $BASE/scripts
