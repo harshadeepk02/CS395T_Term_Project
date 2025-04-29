@@ -1320,7 +1320,7 @@ DefaultIEW<Impl>::executeInsts()
                         if (rob_entry->isControl()) {
                             if (rob_entry->isExecuted() && !rob_entry->mispredicted()) {
                                 TheISA::PCState thisPC = inst->pcState();
-                                cpu->getInstPort().commitaLoad(thisPC.paddr, thisPC.instAddr());
+                                cpu->getDataPort().commitaLoad(thisPC.paddr, thisPC.instAddr());
                             }
                         }
                     }
