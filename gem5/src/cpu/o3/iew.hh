@@ -497,6 +497,12 @@ class DefaultIEW
     Stats::Formula wbRate;
     /** Average number of woken instructions per writeback. */
     Stats::Formula wbFanout;
+
+
+    //new stats
+    /** Number of Ghostminion Early Commits. */
+    Stats::Scalar ghosticacheEarlyCommitAttempts;
+    Stats::Scalar ghostdcacheEarlyCommitAttempts;
 };
 
 #endif // __CPU_O3_IEW_HH__

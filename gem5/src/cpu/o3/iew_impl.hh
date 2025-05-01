@@ -296,6 +296,16 @@ DefaultIEW<Impl>::regStats()
         .desc("insts written-back per cycle")
         .flags(total);
     wbRate = writebackCount / cpu->numCycles;
+
+    //new stats
+    ghosticacheEarlyCommitAttempts
+	.name(name() + ".ghost_icache_ec_attempts")
+	.desc("Ghostminion memref commits attempted early by IEW")
+	.flags(total);
+    ghostdcacheEarlyCommitAttempts
+	.name(name() + ".ghost_dcache_ec_attempts")
+	.desc("Ghostminion inst commits attempted early by IEW")
+	.flags(total);
 }
 
 template<class Impl>
@@ -1310,21 +1320,6 @@ DefaultIEW<Impl>::executeInsts()
                     inst->fault = NoFault;
                 }
 
-                // New code
-                if (inst->isExecuted() && fault == NoFault) {
-                    const std::list<DynInstPtr> ROB_list = rob->getInstList(inst->threadNumber);
-                    for (DynInstPtr rob_entry : ROB_list) {
-                        if (rob_entry->seqNum == inst->seqNum) {
-                            break;
-                        }
-                        if (rob_entry->isControl()) {
-                            if (rob_entry->isExecuted() && !rob_entry->mispredicted()) {
-                                TheISA::PCState thisPC = inst->pcState();
-                                cpu->getDataPort().commitaLoad(thisPC.paddr, thisPC.instAddr());
-                            }
-                        }
-                    }
-                }
             } else if (inst->isStore()) {
                 fault = ldstQueue.executeStore(inst);
 
@@ -1356,7 +1351,6 @@ DefaultIEW<Impl>::executeInsts()
             } else {
                 panic("Unexpected memory type!\n");
             }
-
         } else {
             // If the instruction has already faulted, then skip executing it.
             // Such case can happen when it faulted during ITLB translation.
@@ -1372,6 +1366,37 @@ DefaultIEW<Impl>::executeInsts()
 
             instToCommit(inst);
         }
+
+
+
+        // New code
+        if (inst->isControl() && inst->isExecuted() && fault == NoFault) {
+            const std::list<DynInstPtr> ROB_list = rob->getInstList(inst->threadNumber);
+            bool ec = true;
+    	    for (DynInstPtr rob_entry : ROB_list) {
+                if (rob_entry->isControl()) {
+                    if (!rob_entry->isExecuted() || rob_entry->mispredicted()) {
+                        ec = false;
+                        break;
+                    }
+                } else if (rob_entry->getFault() != NoFault) {
+		    ec = false;
+		    break;
+		}
+
+                if (rob_entry->seqNum > inst->seqNum && ec) {
+                    ghosticacheEarlyCommitAttempts++;
+	            TheISA::PCState thisPC = rob_entry->pcState();
+                    cpu->getInstPort().commitaLoad(thisPC.paddr, thisPC.instAddr());
+                    if (rob_entry->isMemRef()){
+			ghostdcacheEarlyCommitAttempts++;
+                        cpu->getDataPort().commitaLoad(rob_entry->physEffAddr, thisPC.instAddr());
+                    }
+                }
+            }
+        }
+
+
 
         updateExeInstStats(inst);
 

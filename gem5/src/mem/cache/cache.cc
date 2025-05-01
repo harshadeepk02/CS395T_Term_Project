@@ -97,6 +97,7 @@ void BaseCache::commitLoad(Addr addr, Addr pc) {
             blk->fromL2 = false;
     }
     
+	stats.ghostCommitAttempts++;
     
      if(blk) {
 	stats.ghostCommits++;

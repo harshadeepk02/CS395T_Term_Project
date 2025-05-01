@@ -1082,7 +1082,7 @@ DefaultCommit<Impl>::commitInsts()
 					//does loads and stores for the prefetcher, which currently doesn't distinguish the two.
 					  //  printf("committing load addr %ld at pc %ld\n", head_inst->physEffAddr,pc[tid].instAddr());
 					//TODO: add notion of timestamp in here? Probably done inplicitly in cache by overeager evict.
-					cpu->getDataPort().commitaLoad(head_inst->physEffAddr, pc[tid].instAddr());
+				cpu->getDataPort().commitaLoad(head_inst->physEffAddr, pc[tid].instAddr());
 
                 }
 
