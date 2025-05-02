@@ -77,7 +77,9 @@ DefaultIEW<Impl>::DefaultIEW(O3CPU *_cpu, DerivO3CPUParams *params)
       wbNumInst(0),
       wbCycle(0),
       wbWidth(params->wbWidth),
-      numThreads(params->numThreads)
+      numThreads(params->numThreads),
+      earlyCommitEnable(params->earlyCommitEnable),
+      uarchEC(params->uarchEC)
 {
     if (dispatchWidth > Impl::MaxWidth)
         fatal("dispatchWidth (%d) is larger than compiled limit (%d),\n"
@@ -1370,7 +1372,7 @@ DefaultIEW<Impl>::executeInsts()
 
 
         // New code
-        if (inst->isControl() && inst->isExecuted() && fault == NoFault) {
+        if (earlyCommitEnable && (inst->isControl() || uarchEC) && inst->isExecuted() && fault == NoFault) {
             const std::list<DynInstPtr> ROB_list = rob->getInstList(inst->threadNumber);
             bool ec = true;
     	    for (DynInstPtr rob_entry : ROB_list) {
@@ -1379,7 +1381,8 @@ DefaultIEW<Impl>::executeInsts()
                         ec = false;
                         break;
                     }
-                } else if (rob_entry->getFault() != NoFault) {
+                }
+		if (rob_entry->getFault() != NoFault && (!uarchEC || rob_entry->isExecuted())) {
 		    ec = false;
 		    break;
 		}

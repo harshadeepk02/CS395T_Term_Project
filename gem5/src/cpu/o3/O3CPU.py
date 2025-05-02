@@ -177,6 +177,11 @@ class DerivO3CPU(BaseCPU):
     needsTSO = Param.Bool(buildEnv['TARGET_ISA'] == 'x86',
                           "Enable TSO Memory model")
 
+#new code
+    earlyCommitEnable = Param.Bool(False, "Enable EC for ghostminion caches")
+    uarchEC = Param.Bool(False, "Force ECGM to be fully uarchotectural")
+
+
     def addCheckerCpu(self):
         if buildEnv['TARGET_ISA'] in ['arm']:
             from m5.objects.ArmTLB import ArmDTB, ArmITB

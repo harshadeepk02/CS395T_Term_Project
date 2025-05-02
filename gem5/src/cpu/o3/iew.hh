@@ -433,6 +433,12 @@ class DefaultIEW
     /** Maximum size of the skid buffer. */
     unsigned skidBufferMax;
 
+    //new code
+    /** Are ECs enabled for GM */
+    bool earlyCommitEnable;
+    /** Is ECGM fully uarchitectural */
+    bool uarchEC;
+
     /** Stat for total number of idle cycles. */
     Stats::Scalar iewIdleCycles;
     /** Stat for total number of squashing cycles. */
