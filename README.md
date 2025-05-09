@@ -1,3 +1,30 @@
+Charon: Expediting Secure Cache State Changes
+==================================================
+This repository is a modification of the GhostMinion Secure Cache System 
+developed by Samuel Ainsworth as detailed below. 
+
+We present Charon as a modification to the gem5 core provided by 
+GhostMinion that focuses on expediting secure cache state changes to 
+interface more effectively with microarchitectural predictors.
+
+Abstract: Recently, side-channel attacks like Spectre and Spectr-
+eRewind have been used to exploit the speculative exe-
+cution necessary for the increase in microarchitectural
+performance to leak sensitive data. While secure cache
+systems, like GhostMinion, allow for the minimization
+of the overhead required to section off speculative data,
+there is still performance to be gained before being able
+to fully adopt such systems. We propose Charon, a secure
+cache system building off of GhostMinion that commits
+speculative information to the traditional cache hierar-
+chy at branch resolution rather than instruction retire-
+ment. With this early commitment alongside minimally
+conservative strictness ordering, we are able to see an
+average IPC improvement of 10% towards the baseline
+system with no such secure cache system.
+
+Our full paper can be found in this repo as CHARON.pdf
+
 Artefact Evaluation for GhostMinion
 ==================================================
 
