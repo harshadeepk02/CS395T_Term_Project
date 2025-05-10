@@ -7,9 +7,8 @@ We present Charon as a modification to the gem5 core provided by
 GhostMinion that focuses on expediting secure cache state changes to 
 interface more effectively with microarchitectural predictors.
 
-Abstract: Recently, side-channel attacks like Spectre and Spectr-
-eRewind have been used to exploit the speculative exe-
-cution necessary for the increase in microarchitectural
+Abstract: Recently, side-channel attacks like Spectre and SpectreRewind 
+have been used to exploit the speculative execution necessary for the increase in microarchitectural
 performance to leak sensitive data. While secure cache
 systems, like GhostMinion, allow for the minimization
 of the overhead required to section off speculative data,
