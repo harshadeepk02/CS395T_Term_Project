@@ -25,23 +25,6 @@ system with no such secure cache system.
 
 Our full paper can be found in this repo as CHARON.pdf
 
-Artefact Evaluation for GhostMinion
-==================================================
-
-This repository contains artefacts and workflows 
-to reproduce experiments from the MICRO 2021 paper
-by S. Ainsworth 
-
-"GhostMinion: A Strictness-Ordered Cache System for Spectre Mitigation"
-
-Including a modified gem5 simulator based on 
-
-commit 090fa08c149768e940f857df9cb936da23ae48da
-Author: Bobby R. Bruce <bbruce@ucdavis.edu>
-Date:   Wed Sep 30 11:14:02 2020 -0700
-
-and scripts for compiling and running SPEC CPU2006, SPECspeed 2017, and Parsec.
-
 Hardware pre-requisities
 ========================
 * An x86-64 system (more cores will reduce simulation time, so ideally a server) preferably with sudo access (to install dependencies).
