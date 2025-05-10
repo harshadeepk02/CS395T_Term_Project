@@ -1,7 +1,7 @@
 Charon: Expediting Secure Cache State Changes
 ==================================================
-This repository is a modification of the GhostMinion Secure Cache System 
-developed by Samuel Ainsworth as detailed below. 
+This repository is a modification of the [GhostMinion Secure Cache System] 
+(https://github.com/SamAinsworth/reproduce-ghostminion-paper) developed by Samuel Ainsworth. 
 
 We present Charon as a modification to the gem5 core provided by 
 GhostMinion that focuses on expediting secure cache state changes to 
