@@ -23,7 +23,7 @@ conservative strictness ordering, we are able to see an
 average IPC improvement of 10% towards the baseline
 system with no such secure cache system.
 
-Our full paper can be found in this repo as CHARON.pdf
+Our full paper can be found in this repo as [CHARON.pdf](./CHARON.pdf)
 
 Hardware pre-requisities
 ========================
