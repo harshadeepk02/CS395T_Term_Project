@@ -41,13 +41,13 @@ Installation and Building
 You can install this repository as follows:
 
 ```
-git clone https://github.com/SamAinsworth/reproduce-ghostminion-paper
+git clone https://github.com/harshadeepk02/Charon-Secure-Cache
 ```
 
 All scripts from here onwards are assumed to be run from the scripts directory, from the root of the repository:
 
 ```
-cd reproduce-ghostminion-paper
+cd Charon-Secure-Cache
 cd scripts
 ```
 
